@@ -1,7 +1,7 @@
 <!-- src/js/views/ticket-desk.html -->
 
-<!-- Tab Bar -->
-<div class="oj-flex oj-sm-padding-2x-bottom oj-sm-padding-4x-left oj-sm-padding-4x-right">
+<!-- 🎨 TAB BAR CONTAINER - Contenedor con fondo neutro para la barra de tabs -->
+<div class="oj-flex oj-sm-padding-2x-bottom oj-sm-padding-4x-left oj-sm-padding-4x-right tabbar-container">
   <oj-tab-bar
     contextmenu="tabmenu"
     id="ticket-tab-bar"
@@ -29,10 +29,11 @@
 
 <div class="oj-flex oj-sm-flex-direction-row oj-sm-padding-4x oj-sm-column-gap-4x">
 
+  <!-- 🎨 LEFT COLUMN CONTAINER - Columna izquierda con sombra -->
   <!-- ============================= -->
   <!-- COLUMNA IZQUIERDA: LISTA DE TICKETS -->
   <!-- ============================= -->
-  <div class="oj-flex-item oj-sm-12 oj-md-5 oj-lg-5 oj-sm-padding-4x">
+  <div class="oj-flex-item oj-sm-12 oj-md-5 oj-lg-5 oj-sm-padding-4x left-column-container">
 
     <!-- 🔍 Campo de búsqueda -->
     <oj-input-text
@@ -43,47 +44,50 @@
       style="width: 100%;">
     </oj-input-text>
 
-    <!-- 📋 Lista de tickets -->
-    <oj-list-view
-      id="ticketList"
-      data="[[ticketDataProvider]]"
-      selection-mode="single"
-      selected="{{selectedTicket}}"
-      aria-label="Ticket List"
-      class="oj-sm-margin-2x-top ticket-list"
-      style="width: 100%;">
+    <!-- 📋 LIST VIEW CONTAINER - Contenedor con altura dinámica -->
+    <div class="oj-flex list-view-container">
+      <!-- 📋 Lista de tickets -->
+      <oj-list-view
+        id="ticketList"
+        data="[[ticketDataProvider]]"
+        selection-mode="single"
+        selected="{{selectedTicket}}"
+        aria-label="Ticket List"
+        class="oj-sm-margin-2x-top ticket-list"
+        style="width: 100%;">
 
-      <template slot="itemTemplate" data-oj-as="item">
-        <li class="ticket-item oj-sm-padding-2x oj-flex oj-sm-flex-direction-column">
-          <!-- Línea 1: ID y fecha -->
-          <div class="oj-flex oj-sm-justify-content-space-between oj-sm-margin-1x-bottom">
-            <div>
-              <strong>Ticket ID:</strong>
-              <oj-bind-text value="[[item.data.id]]"></oj-bind-text>
+        <template slot="itemTemplate" data-oj-as="item">
+          <li class="ticket-item oj-sm-padding-2x oj-flex oj-sm-flex-direction-column">
+            <!-- Línea 1: ID y fecha -->
+            <div class="oj-flex oj-sm-justify-content-space-between oj-sm-margin-1x-bottom">
+              <div>
+                <strong>Ticket ID:</strong>
+                <oj-bind-text value="[[item.data.id]]"></oj-bind-text>
+              </div>
+              <div class="oj-text-secondary-color">
+                <oj-bind-text value="[[item.data.dateCreated]]"></oj-bind-text>
+              </div>
             </div>
-            <div class="oj-text-secondary-color">
-              <oj-bind-text value="[[item.data.dateCreated]]"></oj-bind-text>
-            </div>
-          </div>
 
-          <!-- Línea 2: Título -->
-          <div class="oj-text-primary-color oj-sm-margin-1x-bottom">
-            <oj-bind-text value="[[item.data.title]]"></oj-bind-text>
-          </div>
+            <!-- Línea 2: Título -->
+            <div class="oj-text-primary-color oj-sm-margin-1x-bottom">
+              <oj-bind-text value="[[item.data.title]]"></oj-bind-text>
+            </div>
 
-          <!-- Línea 3: Estado y prioridad -->
-          <div class="oj-flex oj-sm-justify-content-space-between">
-            <div>
-              <strong>Status:</strong>
-              <oj-bind-text value="[[item.data.status]]"></oj-bind-text>
+            <!-- Línea 3: Estado y prioridad -->
+            <div class="oj-flex oj-sm-justify-content-space-between">
+              <div>
+                <strong>Status:</strong>
+                <oj-bind-text value="[[item.data.status]]"></oj-bind-text>
+              </div>
+              <div class="oj-text-secondary-color">
+                <oj-bind-text value="[[item.data.priority]]"></oj-bind-text>
+              </div>
             </div>
-            <div class="oj-text-secondary-color">
-              <oj-bind-text value="[[item.data.priority]]"></oj-bind-text>
-            </div>
-          </div>
-        </li>
-      </template>
-    </oj-list-view>
+          </li>
+        </template>
+      </oj-list-view>
+    </div>
 
   </div>
 

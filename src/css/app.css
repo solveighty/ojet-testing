@@ -48,3 +48,73 @@ html[dir="rtl"] .demo-oracle-icon {
       transform:translate(-25%, -25%) scale(0.5)
   }
 }
+
+/* ========================================== */
+/* 🎨 CUSTOM THEME STYLES - Estilos personalizados */
+/* ========================================== */
+
+/* 🎨 VARIABLES DE COLOR */
+:root {
+  --brand-color: #2C3E50;
+  --accent-color: #E74C3C;
+  --neutral-color: #ECF0F1;
+  --base-white-color: #ffffff;
+}
+
+/* 🎨 BODY STYLES - Estilos generales */
+h1, h2, h3 {
+  color: var(--brand-color);
+}
+
+/* 🎨 HEADER STYLES - Estilos del header */
+.oj-web-applayout-header {
+  background-color: var(--brand-color);
+  box-shadow: 0 8px 16px 0 rgba(44, 62, 80, 0.2);
+}
+
+.oj-web-applayout-header-title {
+  color: var(--base-white-color);
+}
+
+/* 🎨 HEADER TEXT - Texto blanco en header */
+header span {
+  color: var(--base-white-color);
+}
+
+header .oj-hover {
+  background-color: transparent !important;
+}
+
+/* 🎨 FOOTER STYLES - Estilos del footer */
+.oj-web-applayout-footer {
+  min-height: 0;
+}
+
+/* 🎨 CONTAINERS - Clases para contenedores */
+
+/* 🎨 LIST VIEW CONTAINER - Altura dinámica para la lista */
+.list-view-container {
+  height: calc(100vh - 175px);
+}
+
+/* 🎨 LEFT COLUMN CONTAINER - Sombra para columna izquierda */
+.left-column-container {
+  box-shadow: 0 8px 12px 0 var(--neutral-color);
+}
+
+/* 🎨 TAB BAR CONTAINER - Fondo neutro para tabs */
+.tabbar-container {
+  background-color: var(--neutral-color);
+}
+
+/* 🎨 COMPONENT STYLES - Estilos de componentes */
+
+/* 🎨 TAB BAR ITEMS - Padding para items de tab bar */
+.oj-tabbar-item {
+  padding-bottom: 10px;
+}
+
+/* 🎨 LIST VIEW SELECTED - Border rojo para items seleccionados */
+.oj-listview-element .oj-selected {
+  border-left: 6px solid var(--accent-color);
+}
