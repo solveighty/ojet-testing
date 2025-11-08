@@ -1,4 +1,32 @@
 <!-- src/js/views/ticket-desk.html -->
+
+<!-- Tab Bar -->
+<div class="oj-flex oj-sm-padding-2x-bottom oj-sm-padding-4x-left oj-sm-padding-4x-right">
+  <oj-tab-bar
+    contextmenu="tabmenu"
+    id="ticket-tab-bar"
+    selection="{{selectedTabItem}}"
+    edge="top"
+    data="[[tabBarDataSource]]"
+    item.renderer="[[oj.KnockoutTemplateUtils.getRenderer('tab-template', true)]]"
+    on-oj-remove="[[onTabRemove]]"
+    class="oj-sm-12 oj-sm-condense">
+    <oj-menu slot="contextMenu" style="display:none" aria-label="Actions">
+      <oj-option data-oj-command="oj-tabbar-remove">
+        Removable
+      </oj-option>
+    </oj-menu>
+  </oj-tab-bar>
+</div>
+
+<script type="text/html" id="tab-template">
+  <li class="oj-removable" data-bind="css:{'oj-disabled': $data['disabled'] == 'true'}">
+    <a href="#">
+      <oj-bind-text value="[[name]]"></oj-bind-text>
+    </a>
+  </li>
+</script>
+
 <div class="oj-flex oj-sm-flex-direction-row oj-sm-padding-4x oj-sm-column-gap-4x">
 
   <!-- ============================= -->
@@ -66,6 +94,7 @@
     <h3>
       <oj-bind-text value="[[selectedTicketTitle]]"></oj-bind-text>
     </h3>
+
     <p class="oj-text-secondary-color">
       Ticket content goes here — this area will be used for details in later chapters.
     </p>
