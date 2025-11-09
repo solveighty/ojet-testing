@@ -2,21 +2,26 @@
 
 <!-- 🎨 TAB BAR CONTAINER - Contenedor con fondo neutro para la barra de tabs -->
 <div class="oj-flex oj-sm-padding-2x-bottom oj-sm-padding-4x-left oj-sm-padding-4x-right tabbar-container">
-  <oj-tab-bar
-    contextmenu="tabmenu"
-    id="ticket-tab-bar"
-    selection="{{selectedTabItem}}"
-    edge="top"
-    data="[[tabBarDataSource]]"
-    item.renderer="[[oj.KnockoutTemplateUtils.getRenderer('tab-template', true)]]"
-    on-oj-remove="[[onTabRemove]]"
-    class="oj-sm-12 oj-sm-condense">
-    <oj-menu slot="contextMenu" style="display:none" aria-label="Actions">
-      <oj-option data-oj-command="oj-tabbar-remove">
-        Removable
-      </oj-option>
-    </oj-menu>
-  </oj-tab-bar>
+  <!-- 🎯 CONVEYOR BELT - Envolvimiento de tab-bar para scroll horizontal -->
+  <oj-conveyor-belt class="oj-sm-9">
+    <!-- 🎯 TAB BAR - Barra de pestañas con listener de cambio de selección -->
+    <oj-tab-bar
+      contextmenu="tabmenu"
+      id="ticket-tab-bar"
+      selection="{{selectedTabItem}}"
+      edge="top"
+      data="[[tabBarDataSource]]"
+      item.renderer="[[oj.KnockoutTemplateUtils.getRenderer('tab-template', true)]]"
+      on-oj-remove="[[onTabRemove]]"
+      on-selection-changed="[[tabSelectionChanged]]"
+      class="oj-sm-12 oj-sm-condense">
+      <oj-menu slot="contextMenu" style="display:none" aria-label="Actions">
+        <oj-option data-oj-command="oj-tabbar-remove">
+          Removable
+        </oj-option>
+      </oj-menu>
+    </oj-tab-bar>
+  </oj-conveyor-belt>
 </div>
 
 <script type="text/html" id="tab-template">
@@ -97,13 +102,24 @@
   <!-- COLUMNA DERECHA: DETALLE -->
   <!-- ============================= -->
   <div class="oj-flex-item oj-sm-12 oj-md-7 oj-lg-7 oj-sm-padding-4x">
-    <h3>
-      <oj-bind-text value="[[selectedTicketTitle]]"></oj-bind-text>
-    </h3>
+    
+    <!-- 🎯 SELECTED TICKET VIEW - Módulo para visualizar ticket seleccionado -->
+    <!-- 🎯 CONDITIONAL RENDERING - Solo mostrar si hay ticket seleccionado -->
+    <div data-bind="if: selectedTicketModel">
+      <div data-bind="ojModule: { name: 'view-ticket', params: { ticketModel: selectedTicketModel } }">
+      </div>
+    </div>
+    <!-- 🎯 SELECTED TICKET VIEW -->
+    
+    <!-- 🎯 NO SELECTION MESSAGE - Mensaje cuando no hay ticket seleccionado -->
+    <div data-bind="ifnot: selectedTicketModel" class="oj-sm-padding-4x">
+      <h3>Select a ticket...</h3>
+      <p class="oj-text-secondary-color">
+        Ticket content goes here — this area will be used for details in later chapters.
+      </p>
+    </div>
 
-    <p class="oj-text-secondary-color">
-      Ticket content goes here — this area will be used for details in later chapters.
-    </p>
   </div>
 
 </div>
+

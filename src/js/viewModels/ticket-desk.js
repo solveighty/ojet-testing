@@ -1,4 +1,4 @@
-define(["knockout", "ojs/ojarraydataprovider"], function (
+define(["knockout", "ojs/ojarraydataprovider", "ojs/ojconveyorbelt"], function (
   ko,
   ArrayDataProvider
 ) {
@@ -35,14 +35,22 @@ define(["knockout", "ojs/ojarraydataprovider"], function (
     self.listSelectionChanged = function () {
       // 🎯 Obtener modelo del ticket seleccionado usando find
       var selectedId = self.selectedTicket()[0];
+      console.log("🎯 listSelectionChanged - selectedId:", selectedId, "type:", typeof selectedId);
+      console.log("🎯 ticketList:", self.ticketList());
+      
       var ticketModel = self.ticketList().find(function(ticket) {
-        return ticket.id === selectedId;
+        // 🎯 Comparación flexible (convertir a string para asegurar compatibilidad)
+        var match = String(ticket.id) === String(selectedId);
+        console.log("🔍 Comparing:", ticket.id, "===", selectedId, "Result:", match);
+        return match;
       });
+      
+      console.log("🎯 Found ticketModel:", ticketModel);
       self.selectedTicketModel(ticketModel);
       
       // 🎯 Verificar si el ticket ya está en los tabs
       var match = ko.utils.arrayFirst(self.tabData(), function (item) {
-        return item.id == selectedId;
+        return String(item.id) == String(selectedId);
       });
 
       // 🎯 Si no existe, agregarlo a los tabs
@@ -70,20 +78,44 @@ define(["knockout", "ojs/ojarraydataprovider"], function (
     // 🔹 Tab seleccionado - Inicialmente vacío
     self.selectedTabItem = ko.observable();
 
+    // 🔹 TAB SELECTION CHANGED - Evento cuando cambia selección de tab
+    self.tabSelectionChanged = function () {
+      // 🎯 Actualizar modelo de ticket y lista seleccionada cuando cambia tab
+      var selectedTabId = self.selectedTabItem();
+      console.log("🎯 tabSelectionChanged - selectedTabId:", selectedTabId);
+      
+      var ticketModel = self.ticketList().find(function(ticket) {
+        return String(ticket.id) === String(selectedTabId);
+      });
+      
+      console.log("🎯 tabSelectionChanged - ticketModel:", ticketModel);
+      self.selectedTicketModel(ticketModel);
+      self.selectedTicket([selectedTabId]);
+    };
+
     // 🔹 Función para eliminar tabs
     self.deleteTab = function (id) {
-      var hnavlist = document.getElementById("ticket-tab-bar"),
-        items = self.tabData();
-      for (var i = 0; i < items.length; i++) {
-        if (items[i].id === id) {
-          self.tabData.splice(i, 1);
-          oj.Context.getContext(hnavlist)
-            .getBusyContext()
-            .whenReady()
-            .then(function () {
-              hnavlist.focus();
-            });
-          break;
+      // 🎯 Prevenir que se borre el primer item de la lista
+      if (id != self.ticketList()[0].id) {
+        // 🎯 Verificar si el item actual está seleccionado
+        if (id === self.selectedTicket()[0] || self.selectedTicket()[0] != self.selectedTabItem()) {
+          // 🎯 Resetear a primer item si corresponde
+          self.selectedTabItem(self.tabData()[0].id);
+        }
+
+        var hnavlist = document.getElementById("ticket-tab-bar"),
+          items = self.tabData();
+        for (var i = 0; i < items.length; i++) {
+          if (items[i].id === id) {
+            self.tabData.splice(i, 1);
+            oj.Context.getContext(hnavlist)
+              .getBusyContext()
+              .whenReady()
+              .then(function () {
+                hnavlist.focus();
+              });
+            break;
+          }
         }
       }
     };

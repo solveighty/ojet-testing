@@ -1,0 +1,41 @@
+<!-- 🎯 VIEW TICKET - Vista para visualizar detalles del ticket -->
+<!-- ============================================================= -->
+
+<div class="oj-flex oj-sm-padding-4x oj-sm-flex-direction-column">
+  
+  <!-- 🎯 TICKET STATUS, RATING AND BUTTONS -->
+  <div class="oj-flex oj-sm-padding-2x-bottom">
+    <span class="oj-sm-5 oj-sm-padding-4x-end oj-text-sm" data-bind="text: ticketStatus(status())"></span>
+    <oj-button class="oj-flex-item oj-sm-padding-1x-end">Reply</oj-button>
+    <oj-button class="oj-flex-item oj-sm-padding-1x-end">Escalate Priority</oj-button>
+    <oj-button class="oj-flex-item oj-sm-padding-1x-end">Close Ticket</oj-button>
+  </div>
+  <!-- 🎯 TICKET STATUS, RATING AND BUTTONS -->
+
+  <!-- 🎯 TICKET HEADER INFORMATION -->
+  <div class="oj-flex oj-sm-padding-4x-vertical">
+    <div class="oj-sm-1 oj-sm-padding-3x-top">
+      <oj-avatar role="img" aria-label="Author Avatar" size="xs">
+      </oj-avatar>
+    </div>
+    <div class="oj-sm-8 oj-sm-flex-direction-column">
+      <h2 data-bind="text: title"></h2>
+      <div data-bind="text: author"></div>
+    </div>
+    <div class="oj-sm-2 oj-text-sm oj-sm-padding-2x-vertical">
+      <div data-bind="text: dateDifference(dateCreated())" :title="[[formatDate(dateCreated())]]">
+      </div>
+    </div>
+    <div class="oj-sm-1"></div>
+  </div>
+  <!-- 🎯 TICKET HEADER INFORMATION -->
+
+  <!-- 🎯 TICKET MESSAGE -->
+  <div class="oj-flex oj-sm-padding-2x-vertical">
+    <div class="oj-sm-1"></div>
+    <div class="oj-sm-9 oj-sm-padding-4x-bottom" data-bind="html: message"></div>
+    <div class="oj-sm-2"></div>
+  </div>
+  <!-- 🎯 TICKET MESSAGE -->
+
+</div>
