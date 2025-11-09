@@ -11,57 +11,64 @@ define(["knockout", "ojs/ojarraydataprovider"], function (
     // 🔹 Datos iniciales (mock local o mock server)
     self.tickets = ko.observableArray([]);
 
-    // Cargar datos desde el servidor mock
-    fetch("http://localhost:8085/tickets")
-      .then((res) => res.json())
-      .then((data) => self.tickets(data.tickets))
-      .catch((err) => console.error("Error loading tickets:", err));
+    // 🔹 TICKET LIST - Lista de tickets
+    self.ticketList = self.tickets;
 
     // 🔹 Proveedor de datos para ojListView
     self.ticketDataProvider = new ArrayDataProvider(self.tickets, {
       keyAttributes: "id",
     });
 
-    // 🔹 Ticket seleccionado
-    self.selectedTicket = ko.observable();
+    // 🔹 TICKET SELECTION - Variables de selección de tickets
+    self.selectedTicket = ko.observableArray([]);
+    self.selectedTicketModel = ko.observable();
+    self.selectedTicketRepId = ko.observable();
+
     self.selectedTicketTitle = ko.pureComputed(() => {
       const selected = self
         .tickets()
-        .find((t) => t.id === self.selectedTicket());
+        .find((t) => t.id === self.selectedTicket()[0]);
       return selected ? selected.title : "Select a ticket...";
     });
 
-    // 🔹 Tab Component Data
-    self.tabData = ko.observableArray([
-      {
-        name: "Settings",
-        id: "settings"
-      },
-      {
-        name: "Tools",
-        id: "tools"
-      },
-      {
-        name: "Base",
-        id: "base"
-      },
-      {
-        name: "Environment",
-        disabled: "true",
-        id: "environment"
-      },
-      {
-        name: "Security",
-        id: "security"
+    // 🔹 LIST SELECTION CHANGED - Evento cuando cambia selección de ticket
+    self.listSelectionChanged = function () {
+      // 🎯 Obtener modelo del ticket seleccionado usando find
+      var selectedId = self.selectedTicket()[0];
+      var ticketModel = self.ticketList().find(function(ticket) {
+        return ticket.id === selectedId;
+      });
+      self.selectedTicketModel(ticketModel);
+      
+      // 🎯 Verificar si el ticket ya está en los tabs
+      var match = ko.utils.arrayFirst(self.tabData(), function (item) {
+        return item.id == selectedId;
+      });
+
+      // 🎯 Si no existe, agregarlo a los tabs
+      if (!match) {
+        self.tabData.push({
+          "name": selectedId,
+          "id": selectedId
+        });
       }
-    ]);
+
+      // 🎯 Establecer ID del representante y pestaña seleccionada
+      if (ticketModel) {
+        self.selectedTicketRepId(ticketModel.representativeId);
+      }
+      self.selectedTabItem(selectedId);
+    };
+
+    // 🔹 Tab Component Data - Inicialmente vacío, se llena al seleccionar tickets
+    self.tabData = ko.observableArray([]);
 
     self.tabBarDataSource = new ArrayDataProvider(self.tabData, {
       keyAttributes: "id"
     });
 
-    // 🔹 Tab seleccionado
-    self.selectedTabItem = ko.observable("settings");
+    // 🔹 Tab seleccionado - Inicialmente vacío
+    self.selectedTabItem = ko.observable();
 
     // 🔹 Función para eliminar tabs
     self.deleteTab = function (id) {
@@ -87,6 +94,15 @@ define(["knockout", "ojs/ojarraydataprovider"], function (
       event.preventDefault();
       event.stopPropagation();
     };
+
+    // 🔹 CARGAR DATOS - Cargar datos desde el servidor mock DESPUÉS de crear observables
+    fetch("http://localhost:8085/tickets")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("📋 Tickets cargados:", data.tickets);
+        self.tickets(data.tickets);
+      })
+      .catch((err) => console.error("❌ Error loading tickets:", err));
   }
 
   return new TicketDeskViewModel();

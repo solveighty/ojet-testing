@@ -47,11 +47,13 @@
     <!-- 📋 LIST VIEW CONTAINER - Contenedor con altura dinámica -->
     <div class="oj-flex list-view-container">
       <!-- 📋 Lista de tickets -->
+      <!-- 🎯 SELECTION CHANGED - Evento para cuando cambia la selección -->
       <oj-list-view
         id="ticketList"
         data="[[ticketDataProvider]]"
         selection-mode="single"
-        selected="{{selectedTicket}}"
+        selection="{{selectedTicket}}"
+        on-selection-changed="[[listSelectionChanged]]"
         aria-label="Ticket List"
         class="oj-sm-margin-2x-top ticket-list"
         style="width: 100%;">
