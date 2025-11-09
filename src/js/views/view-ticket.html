@@ -4,11 +4,15 @@
 <div class="oj-flex oj-sm-padding-4x oj-sm-flex-direction-column">
   
   <!-- 🎯 TICKET STATUS, RATING AND BUTTONS -->
-  <div class="oj-flex oj-sm-padding-2x-bottom">
-    <span class="oj-sm-5 oj-sm-padding-4x-end oj-text-sm" data-bind="text: ticketStatus(status())"></span>
-    <oj-button class="oj-flex-item oj-sm-padding-1x-end">Reply</oj-button>
-    <oj-button class="oj-flex-item oj-sm-padding-1x-end">Escalate Priority</oj-button>
-    <oj-button class="oj-flex-item oj-sm-padding-1x-end">Close Ticket</oj-button>
+  <div class="oj-flex-bar oj-sm-padding-2x-bottom oj-sm-align-items-center">
+    <div class="oj-flex-bar-middle">
+      <span class="oj-text-sm" data-bind="text: ticketStatus(status())"></span>
+    </div>
+    <div class="oj-flex-bar-end">
+      <oj-button class="oj-sm-margin-1x-end" chroming="outlined">Reply</oj-button>
+      <oj-button class="oj-sm-margin-1x-end" chroming="outlined">Escalate Priority</oj-button>
+      <oj-button chroming="outlined">Close Ticket</oj-button>
+    </div>
   </div>
   <!-- 🎯 TICKET STATUS, RATING AND BUTTONS -->
 
@@ -101,6 +105,29 @@
   </style>
   
   <div id="ticket-reply-area"></div>
-  <!-- 🎯 REPLY SECTION -->
+  
+  <!-- 🎯 FILE PICKER AND REPLY BUTTON - Selector de archivos y botón de respuesta -->
+  <div class="oj-flex-bar oj-sm-padding-4x-vertical">
+    <div class="oj-flex-bar-start oj-sm-align-items-center">
+      <oj-file-picker class='oj-filepicker-custom oj-sm-padding-2x-end'
+        id="fileUpload"
+        selectOn='click'
+        on-oj-select='[[fileSelectionListener]]'
+        accept="[[allowedFileTypes]]"
+        selection-mode='single'>
+        <oj-button slot='trigger'>
+          <span slot='startIcon' class='oj-fwk-icon oj-fwk-icon-arrowbox-n'></span>
+          Upload
+        </oj-button>
+      </oj-file-picker>
+      <oj-bind-if test='[[uploadedFile()[0]]]'>
+        <oj-bind-text value="[[uploadedFile()[0].name]]"></oj-bind-text>
+      </oj-bind-if>
+    </div>
+    <div class="oj-flex-bar-end">
+      <oj-button id='reply-button' on-oj-action='[[ticketReply]]'>Reply</oj-button>
+    </div>
+  </div>
+  <!-- 🎯 FILE PICKER AND REPLY BUTTON -->
 
 </div>

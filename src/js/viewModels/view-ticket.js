@@ -7,6 +7,8 @@ define(['ojs/ojcore',
   'utils/app-utils',
   'ojs/ojlistview',
   'ojs/ojarraydataprovider',
+  'ojs/ojfilepicker',
+  'ojs/ojbutton',
   'trumbowyg',
 ],
   function (oj, ko, $, appUtils) {
@@ -132,6 +134,31 @@ define(['ojs/ojcore',
         } else if (status === "Awaiting Customer Response") {
           return "Ticket status is currently 'awaiting customer response', our team is awaiting your reply.";
         }
+      };
+
+      // 🔹 FILE UPLOAD - Variables para el cargador de archivos
+      self.uploadedFile = ko.observableArray([]);
+      self.allowedFileTypes = ko.observableArray(['image/*']);
+
+      // 🔹 FILE SELECTION LISTENER - Procesa la selección de archivo
+      self.fileSelectionListener = function(event) {
+        var file = event.detail.files;
+        console.log("📌 File selected:", file);
+        self.uploadedFile(file);
+      };
+
+      // 🔹 TICKET REPLY - Envía la respuesta del ticket
+      self.ticketReply = function() {
+        console.log("📌 Reply button clicked");
+        var replyText = $('#ticket-reply-area').trumbowyg('html');
+        var file = self.uploadedFile()[0];
+        console.log("📌 Reply text:", replyText);
+        console.log("📌 Uploaded file:", file);
+        
+        // TODO: Implementar lógica para enviar la respuesta
+        // - Enviar POST a /tickets/replies/{ticketId}
+        // - Incluir replyText y file en la solicitud
+        // - Limpiar el editor después de enviar
       };
 
       // 🔹 HANDLE ATTACHED - Inicializa el editor Trumbowyg cuando el DOM está listo
