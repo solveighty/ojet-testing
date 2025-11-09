@@ -64,6 +64,7 @@ define(["knockout", "ojs/ojarraydataprovider", "ojs/ojconveyorbelt"], function (
       // 🎯 Establecer ID del representante y pestaña seleccionada
       if (ticketModel) {
         self.selectedTicketRepId(ticketModel.representativeId);
+        console.log("🎯 SET selectedTicketRepId to:", ticketModel.representativeId);
       }
       self.selectedTabItem(selectedId);
     };
@@ -95,27 +96,29 @@ define(["knockout", "ojs/ojarraydataprovider", "ojs/ojconveyorbelt"], function (
 
     // 🔹 Función para eliminar tabs
     self.deleteTab = function (id) {
-      // 🎯 Prevenir que se borre el primer item de la lista
-      if (id != self.ticketList()[0].id) {
-        // 🎯 Verificar si el item actual está seleccionado
-        if (id === self.selectedTicket()[0] || self.selectedTicket()[0] != self.selectedTabItem()) {
-          // 🎯 Resetear a primer item si corresponde
-          self.selectedTabItem(self.tabData()[0].id);
-        }
-
-        var hnavlist = document.getElementById("ticket-tab-bar"),
-          items = self.tabData();
-        for (var i = 0; i < items.length; i++) {
-          if (items[i].id === id) {
-            self.tabData.splice(i, 1);
-            oj.Context.getContext(hnavlist)
-              .getBusyContext()
-              .whenReady()
-              .then(function () {
-                hnavlist.focus();
-              });
-            break;
+      // 🎯 Verificar si el item actual está seleccionado
+      if (id === self.selectedTicket()[0] || self.selectedTicket()[0] != self.selectedTabItem()) {
+        // 🎯 Resetear a otro tab si hay disponible
+        if (self.tabData().length > 1) {
+          var nextTab = self.tabData().find(function(tab) { return tab.id != id; });
+          if (nextTab) {
+            self.selectedTabItem(nextTab.id);
           }
+        }
+      }
+
+      var hnavlist = document.getElementById("ticket-tab-bar"),
+        items = self.tabData();
+      for (var i = 0; i < items.length; i++) {
+        if (items[i].id === id) {
+          self.tabData.splice(i, 1);
+          oj.Context.getContext(hnavlist)
+            .getBusyContext()
+            .whenReady()
+            .then(function () {
+              hnavlist.focus();
+            });
+          break;
         }
       }
     };

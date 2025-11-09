@@ -104,8 +104,8 @@
   <!-- 🎯 SELECTED TICKET VIEW - Estructura con dos columnas -->
   <div class="oj-flex oj-flex-item oj-sm-12 oj-md-7 oj-lg-7">
     
-    <!-- 🎯 VIEW TICKET CONTAINER - Columna con detalles del ticket (11/12) -->
-    <div class="oj-sm-11 view-ticket-container">
+    <!-- 🎯 VIEW TICKET CONTAINER - Columna con detalles del ticket (9/12) -->
+    <div class="oj-sm-9 view-ticket-container">
       <div data-bind="if: selectedTicketModel">
         <div data-bind="ojModule: { name: 'view-ticket', params: { ticketModel: selectedTicketModel } }" class="oj-sm-padding-4x">
         </div>
@@ -119,8 +119,14 @@
       </div>
     </div>
     
-    <!-- 🎯 SUPPORT REP CONTAINER - Columna para representante de soporte (1/12) -->
-    <div class="oj-sm-1 support-rep-container"></div>
+    <!-- 🎯 SUPPORT REP CONTAINER - Columna para representante de soporte (3/12) -->
+    <div class="oj-sm-3 support-rep-container">
+      <!-- 🎯 DEBUG: Test if condition -->
+      <div style="display:none" data-bind="text: 'repId=' + selectedTicketRepId()"></div>
+      
+      <!-- 🎯 Cargar módulo -->
+      <div data-bind="ojModule: { name: 'view-representative', params: { repId: selectedTicketRepId } }"></div>
+    </div>
     
   </div>
   <!-- 🎯 SELECTED TICKET VIEW -->

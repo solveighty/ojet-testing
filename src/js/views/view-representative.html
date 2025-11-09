@@ -1,0 +1,32 @@
+<!-- 🎯 VIEW REPRESENTATIVE - Vista para mostrar información del representante -->
+<!-- ============================================================================= -->
+
+<div class="oj-flex oj-sm-flex-direction-column oj-sm-align-items-center oj-sm-padding-4x">
+  
+  <!-- 🎯 AVATAR - Avatar del representante -->
+  <oj-avatar role="img" aria-label="Representative Avatar" size="md">
+  </oj-avatar>
+  
+  <!-- 🎯 NAME - Nombre del representante -->
+  <span data-bind="text: name" class="oj-sm-padding-2x-vertical oj-text-bold"></span>
+  
+  <!-- 🎯 ROLE - Rol/Puesto del representante -->
+  <strong data-bind="text: role" class="oj-sm-padding-2x-vertical oj-text-secondary-color"></strong>
+  
+  <!-- 🎯 BIO - Biografía/Descripción del representante -->
+  <span data-bind="text: bio" class="oj-sm-padding-2x-vertical oj-text-sm"></span>
+  
+  <!-- 🎯 RATING LABEL - Etiqueta para el rating -->
+  <span class="oj-sm-padding-4x-top oj-text-sm">Average Rating</span>
+  
+  <!-- 🎯 RATING STARS - Estrellas de calificación -->
+  <div class="oj-sm-padding-2x-vertical" style="font-size: 20px; color: #E74C3C;">
+    <!-- Generar estrellas llenas basado en ratingValue -->
+    <span data-bind="visible: ratingValue() >= 1">★</span><span data-bind="visible: ratingValue() < 1">☆</span>
+    <span data-bind="visible: ratingValue() >= 2">★</span><span data-bind="visible: ratingValue() < 2">☆</span>
+    <span data-bind="visible: ratingValue() >= 3">★</span><span data-bind="visible: ratingValue() < 3">☆</span>
+    <span data-bind="visible: ratingValue() >= 4">★</span><span data-bind="visible: ratingValue() < 4">☆</span>
+    <span data-bind="visible: ratingValue() >= 5">★</span><span data-bind="visible: ratingValue() < 5">☆</span>
+  </div>
+  
+</div>
