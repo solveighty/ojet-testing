@@ -52,7 +52,8 @@
   '🔹 APP UTILS': 'utils/app-utils',
   'appUtils': 'utils/app-utils'
   ,
-        'chai': 'libs/chai/chai-4.5.0'
+        'chai': 'libs/chai/chai-4.5.0',
+        'trumbowyg': ''
       }
       // endinjector
     }

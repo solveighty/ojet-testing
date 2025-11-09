@@ -395,7 +395,20 @@
          "path": "libs/chai/chai.js",
          "cdnPath": "chai/chai-4.5.0.min"
       }
-   }
+   },
+
+    "trumbowyg": {
+      "cdn": "3rdparty",
+      "cwd": "node_modules/trumbowyg/dist",
+      "debug": {
+        "src": ["trumbowyg.min.js", "ui/icons.svg", "plugins/cleanpaste/**"],
+        "path": "libs/trumbowyg/trumbowyg.min.js"
+      },
+      "release": {
+        "src": ["trumbowyg.min.js", "ui/icons.svg", "plugins/cleanpaste/**"],
+        "path": "libs/trumbowyg/trumbowyg.min.js"
+      }
+    }
 
   }
 }
