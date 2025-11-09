@@ -118,3 +118,21 @@ header .oj-hover {
 .oj-listview-element .oj-selected {
   border-left: 6px solid var(--accent-color);
 }
+
+/* 🎨 LIST VIEW HOVER - Remover hover background en list view */
+.oj-listview {
+  .oj-hover {
+    background-color: transparent;
+  }
+}
+
+/* 🎨 VIEW TICKET CONTAINER - Altura y scroll vertical */
+.view-ticket-container {
+  height: calc(100vh - 161px);
+  overflow-y: scroll;
+}
+
+/* 🎨 SUPPORT REP CONTAINER - Contenedor para representante de soporte */
+.support-rep-container {
+  background-color: var(--neutral-color);
+}

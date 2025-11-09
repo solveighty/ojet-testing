@@ -26,6 +26,16 @@ define(['ojs/ojcore',
       self.status = ko.observable();
       self.attachment = ko.observable();
 
+      // 🔹 TICKET REPLIES - Colección y DataSource para replies
+      self.ticketRepliesDataSource = ko.observable();
+      self.ticketRepliesArray = ko.observableArray([]);
+      
+      // Crear ArrayDataProvider para las replies
+      var ticketRepliesProvider = new oj.ArrayDataProvider(self.ticketRepliesArray, {
+        keyAttributes: 'id'
+      });
+      self.ticketRepliesDataSource(ticketRepliesProvider);
+
       // 🔹 FORMAT DATE - Utilidad para formatear fecha
       self.formatDate = appUtils.formatDate;
 
@@ -48,6 +58,29 @@ define(['ojs/ojcore',
           });
         }
         return ticket;
+      });
+
+      // 🔹 FETCH REPLIES - Suscribirse a cambios de ticketId para cargar replies
+      self.ticketId.subscribe(function() {
+        var ticketId = self.ticketId();
+        console.log("📌 Fetching replies for ticket ID:", ticketId);
+        
+        if (ticketId) {
+          $.ajax({
+            url: "http://localhost:8085/tickets/replies/" + ticketId,
+            type: "GET",
+            dataType: "json",
+            success: function(data) {
+              console.log("📌 Replies loaded:", data);
+
+              self.ticketRepliesArray(data.notes || []);
+            },
+            error: function(error) {
+              console.error("❌ Error loading replies:", error);
+              self.ticketRepliesArray([]);
+            }
+          });
+        }
       });
 
       // 🔹 DATE DIFFERENCE - Función para calcular diferencia de fechas
